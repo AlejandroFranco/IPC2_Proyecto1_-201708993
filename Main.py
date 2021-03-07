@@ -146,6 +146,7 @@ class Main:
                 y = 1
                 x += 1
                 fila_temp = []
+        return reducida
 
     def coincidencias(self, matriz, patrones_acceso):
         copia_matriz = copy.deepcopy(matriz)
