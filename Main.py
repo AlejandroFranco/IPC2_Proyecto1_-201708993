@@ -129,6 +129,7 @@ class Main:
         return matriz_copia
 
     def crearMatrizReducida(self,  matriz, patrones_acceso):
+        resultado = []
         patrones_iguales = self.coincidencias(matriz, copy.deepcopy(patrones_acceso))
         patrones_copia = self.coincidencias(matriz, copy.deepcopy(patrones_acceso))
         reducida = []
@@ -160,7 +161,9 @@ class Main:
                 y = 1
                 x += 1
                 fila_temp = []
-        return reducida
+        resultado.append(reducida)
+        resultado.append(patrones_iguales)
+        return resultado
 
     def coincidencias(self, matriz, patrones_acceso):
         copia_matriz = copy.deepcopy(matriz)
@@ -207,12 +210,13 @@ class Main:
                 for matriz in self.lista_matrices.toList():
                     cadena = ""
                     cadena += "<matriz nombre =" + "\""+matriz.nombre+"\"" + " n=" + matriz.n + " m=" + matriz.m+" g="+ str(len(matriz.reducida)) + ">"+"\n"
-                    for fila in matriz.reducida:
+                    for fila in matriz.reducida[0]:
                         for celda in fila.casillas:
                             cadena += "<dato x= "+str(celda.x)+" y="+str(celda.y)+">"+str(celda.valor)+ "</dato>"+"\n"
-                    cadena += "</matriz>"
-                    for fila in matriz.reducida:
-                        cadena += "<frecuencia g="+str(contador)+">" + "a" + "</frecuencia>"
+                    for fila in matriz.reducida[0]:
+                        cadena += "<frecuencia g="+str(contador)+">" + str(len(matriz.reducida[1].pop())) + "</frecuencia>"+"\n"
+                        contador += 1
+                    cadena += "</matriz>"+"\n"
                     f.write(cadena)
                 f.close()
             except FileNotFoundError:
