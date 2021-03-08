@@ -57,7 +57,6 @@ class ListaCircularSimpleEnlazada(object):
         return lista
 
 class Main:
-
     contenido_archivo = ""
     ruta = ""
     lista_matrices = ListaCircularSimpleEnlazada()
@@ -96,7 +95,37 @@ class Main:
         else:
             self.menu()
     def generarGrafica(self):
-        a = 1
+        contenido = ""
+        cambiar = False
+        print("Matrices disponibles: ")
+        for matriz in self.lista_matrices.toList():
+            print(matriz.nombre+"\n")
+        opcion = input("Escriba el nombre de la matriz a graficar: ")
+        for matriz in self.lista_matrices.toList():
+            if matriz.nombre == opcion:
+                contenido += "digraph "+matriz.nombre +"{"+"\n"
+                contenido += matriz.nombre+"->"+str(matriz.n)+"\n"
+                contenido += matriz.nombre + "->" + str(matriz.n) + "\n"
+                contador = 0
+                contador2 = 0
+                while contador < len(matriz.filas):
+                    if contador == 0:
+                        for celda in matriz.filas[0].casillas:
+                           contenido += matriz.nombre + "->" + str(celda.valor) + "\n"
+                        contador += 1
+                    else:
+                        for celda in matriz.filas[0].casillas:
+                            contenido += str(matriz.filas[contador-1].casillas[contador2].valor)+"->"+str(matriz.filas[contador].casillas[contador2].valor)+"\n"
+                            contador2 += 1
+                        contador += 1
+                        contador2 = 0
+                contenido += "\n"+"}"
+        file = open("grafico.dot","w+")
+        file.write(contenido)
+        os.system('dot -Tpng grafico.dot -o grafico.png')
+        os.system('open grafico.png')
+        file.close()
+        a=1
 
     def procesarArchivo(self):
         arbol = ET.parse(self.ruta)
