@@ -125,7 +125,7 @@ class Main:
         file.close()
         os.system('cmd /k "dot -Tpng grafico.dot -o grafico.png"')
         os.system('cmd /k "grafico.png"')
-1
+
     def procesarArchivo(self):
         arbol = ET.parse(self.ruta)
         raiz = arbol.getroot()
