@@ -122,11 +122,10 @@ class Main:
                 contenido += "\n"+"}"
         file = open("grafico.dot","w+")
         file.write(contenido)
-        os.system('dot -Tpng grafico.dot -o grafico.png')
-        os.system('open grafico.png')
         file.close()
-        a=1
-
+        os.system('cmd /k "dot -Tpng grafico.dot -o grafico.png"')
+        os.system('cmd /k "grafico.png"')
+1
     def procesarArchivo(self):
         arbol = ET.parse(self.ruta)
         raiz = arbol.getroot()
