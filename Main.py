@@ -46,6 +46,16 @@ class ListaCircularSimpleEnlazada(object):
             self.primero = nuevo_nodo
             return
 
+    def toList(self):
+        nodo_actual = self.cabeza
+        lista = []
+        while nodo_actual.siguiente:
+            lista.append(nodo_actual.dato)
+            nodo_actual = nodo_actual.siguiente
+            if nodo_actual == self.cabeza:
+                break
+        return lista
+
 class Main:
 
     contenido_archivo = ""
@@ -71,6 +81,7 @@ class Main:
                 self.menu()
             elif entrada == "3":
                 self.archivoSalida()
+                self.menu()
             elif entrada == "4":
                 print("Pablo Alejandro Franco Lemus")
                 print("201708993")
@@ -78,11 +89,14 @@ class Main:
                 print("Ingenieria en Ciencias y Sistemas")
                 print("4to Semestre")
                 self.menu()
-            # elif entrada == "5":
+            elif entrada == "5":
+                self.generarGrafica()
             elif entrada == "6":
                 exit()
         else:
             self.menu()
+    def generarGrafica(self):
+        a = 1
 
     def procesarArchivo(self):
         arbol = ET.parse(self.ruta)
@@ -185,6 +199,29 @@ class Main:
 
     def archivoSalida(self):
         ruta = input("Escribir una ruta específica: ")
+        dimExt = len(ruta)
+        if ruta.endswith(".xml", dimExt - 4, dimExt):
+            contador = 1
+            try:
+                f = open(ruta, "w")
+                for matriz in self.lista_matrices.toList():
+                    cadena = ""
+                    cadena += "<matriz nombre =" + "\""+matriz.nombre+"\"" + " n=" + matriz.n + " m=" + matriz.m+" g="+ str(len(matriz.reducida)) + ">"+"\n"
+                    for fila in matriz.reducida:
+                        for celda in fila.casillas:
+                            cadena += "<dato x= "+str(celda.x)+" y="+str(celda.y)+">"+str(celda.valor)+ "</dato>"+"\n"
+                    cadena += "</matriz>"
+                    for fila in matriz.reducida:
+                        cadena += "<frecuencia g="+str(contador)+">" + "a" + "</frecuencia>"
+                    f.write(cadena)
+                f.close()
+            except FileNotFoundError:
+                print("Ingrese una ruta y extensión correcta .xml para el archivo")
+                self.archivoSalida()
+        else:
+            print("Ingrese una ruta y extensión correcta .xml para el archivo")
+            self.archivoSalida()
+
 
 Main().menu()
 
