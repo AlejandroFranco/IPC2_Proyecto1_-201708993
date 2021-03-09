@@ -254,6 +254,4 @@ class Main:
             print("Ingrese una ruta y extensión correcta .xml para el archivo")
             self.archivoSalida()
 
-
 Main().menu()
-
